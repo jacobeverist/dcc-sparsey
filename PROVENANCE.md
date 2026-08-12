@@ -20,11 +20,12 @@ This port exists and is released with the original author's permission:
 
 > The private SparseyCore repository was sent to Gerard Rinkus by email on **17 July 2026**.
 > Gerard Rinkus granted **verbal permission on 20 July 2026** to port Sparsey to Rust and
-> release it under an open source license.
+> release it under an open source license, and **confirmed that permission in writing by
+> email on 12 August 2026**, before this repository was made public.
+
+The 12 August email is the record of record; the July conversation is the history behind it.
 
 `AGPL-3.0-or-later` is an OSI-approved open source license, so the license chosen here falls within the scope of that grant.
-
-> **Note for whoever maintains this next.** That grant is *verbal*, which is the weakest kind of record. A one-line email to Gerard confirming the 20 July conversation — and pointing at this file — would durably back it, and costs nothing. Worth doing before this repository is ever made public.
 
 ## License
 
