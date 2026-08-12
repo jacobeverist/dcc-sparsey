@@ -19,7 +19,7 @@ Checks belong here rather than in dcc-core so a violation fails in the repositor
 | R5 | State expressible as grouped CSDR or sparse index list | ✅ | wrapper-side; see note |
 | R6 | Config types are serde `Serialize + Deserialize + Clone` | ✅ | `#[derive]` on `NetworkConfig` |
 | R7 | Learned state serializes to bytes | ✅ | `serialize_state` / `load_state` |
-| R8 | Forward pass separable from update | ❌ | not applicable; see note |
+| R8 | Forward/update separation declared | ✅ | monolithic; see note |
 | R9 | RNG per-object and seed-parameterised, no globals | ✅ | by construction; see note |
 | R10 | Behavior-critical majors match dcc-core | ✅ | `r10_behavior_critical_majors_match_dcc_core` |
 | R11 | No `pyo3` | ✅ | no such dependency |
@@ -33,7 +33,11 @@ Checks belong here rather than in dcc-core so a violation fails in the repositor
 
 **R5 — representation.** This crate is the hybrid of the three. Its *input* is a plain sparse pattern (active feature indices), while its *output* is a grouped code — one winning cell per CM, `num_macs · Q` columns of `K` cells. The wrapper bridges the output through dcc-core's shared grouped-SDR helper rather than a conversion of its own. Nothing is required of this crate beyond exposing both, which `set_input` and the `Recorder` callback do.
 
-**R8 — forward/update separation: not applicable, and that is a real constraint.** `do_frame_learn` and `do_frame_recognize` each do forward *and* update in a single call; there is no re-runnable forward pass to split. So the wrapper must use dcc-core's monolithic-step recipe: no-op `compute()`, and override **both** `execute` and `execute_in_thread` to step exactly once per tick. Overriding only one of the two compiles, passes `cargo test`, and is wrong in the browser.
+**R8 — monolithic, which is one of the two sanctioned answers.** R8 asks a crate to *declare* which of two shapes it has, not to have a particular one: "either a re-runnable deterministic forward pass, or accept the monolithic-step recipe." This crate is the second. `do_frame_learn` and `do_frame_recognize` each do forward *and* update in a single call, so there is no re-runnable forward pass to split.
+
+What that obliges is on the wrapper side: no-op `compute()`, and override **both** `execute` and `execute_in_thread` to step exactly once per tick. Overriding only one compiles, passes `cargo test`, and is wrong in the browser — which is why the answer has to be written down rather than inferred.
+
+*(This row read ❌ until 2026-08-12. That was a mis-marking, not a finding: it recorded a property as a failure. Nothing in this crate changed.)*
 
 **R9 — no global RNG.** Satisfied by construction and worth stating explicitly, because the sibling port `dcc_sph` fails it and pays for it continuously. Every generator here is owned by the `SparseyNet` instance and seeded through `SparseyNet::build(config, seed)`; the Java reference's `globalFrameAcrossAllEpisodes` and `operationalMode` statics became instance fields during the port. Two networks in one process cannot contaminate each other, and no thread-isolation harness is needed to get reproducible numbers.
 
