@@ -1,0 +1,20 @@
+/target
+**/*.rs.bk
+*.pdb
+
+# NOTE: Cargo.lock is deliberately NOT ignored, and is committed.
+#
+# The old advice was that libraries ignore their lockfile. Cargo's own guidance
+# changed in 2023 — a consumer ignores a dependency's lockfile regardless, so
+# committing it costs nothing downstream and buys a reproducible CI here.
+#
+# It is also load-bearing for this repo specifically: the CI cache key is
+# `hashFiles('**/Cargo.lock')`, and with no such file that expression matches
+# nothing, so the key collapsed to a CONSTANT and the cache never invalidated
+# when dependencies changed.
+
+# IDEs
+.idea/
+
+# macOS
+.DS_Store

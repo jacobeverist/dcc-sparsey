@@ -1,0 +1,76 @@
+{
+  "reference": "Sparsey_Alt/Python (independent Rinkus reimplementation)",
+  "scenario": {
+    "K": 8,
+    "Q": 5,
+    "U": 16,
+    "seed": 42,
+    "n_inputs": 4
+  },
+  "learned_codes": {
+    "A": [
+      2,
+      7,
+      5,
+      4,
+      1
+    ],
+    "B": [
+      1,
+      0,
+      6,
+      4,
+      5
+    ],
+    "C": [
+      0,
+      7,
+      6,
+      1,
+      1
+    ],
+    "D": [
+      1,
+      2,
+      4,
+      3,
+      2
+    ]
+  },
+  "recognition_codes": {
+    "A": [
+      2,
+      7,
+      5,
+      4,
+      1
+    ],
+    "B": [
+      1,
+      0,
+      6,
+      4,
+      5
+    ],
+    "C": [
+      0,
+      7,
+      6,
+      1,
+      1
+    ],
+    "D": [
+      1,
+      2,
+      4,
+      3,
+      2
+    ]
+  },
+  "invariants": {
+    "distinct_codes": 4,
+    "all_reactivate": true,
+    "g_familiar_min": 1.0,
+    "g_novel": 0.0
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "ndfPath": { "mac": ".", "windows": "." },
+  "ndf": "m1.ndf.json",
+  "supervisedMode": { "sup1WeightsOnly": true },
+  "Stats_Usage_Level": 0,
+  "Stats_Path": { "mac": ".", "windows": "." },
+  "loadBinaryNet": false,
+  "resumeLearning": false,
+  "SupModWtUpdateFreq": 0,
+  "LearnNewNetForEachTrainingRun": true
+}

@@ -1,0 +1,30 @@
+{
+  "Regions":            ["input", "internal"],
+  "RegionHeights":      { "input": 0, "internal": 1 },
+  "Connections":        ["input_internal"],
+
+  "RegionWidthInBlks":  { "input": 2, "internal": 1 },
+  "RegionHeightInBlks": { "input": 2, "internal": 1 },
+  "RegionPersistence":  { "input": 1, "internal": 1 },
+  "Region_Q":           { "internal": 4 },
+  "Region_K":           { "internal": 8 },
+
+  "UseSinglePixelApertures": true,
+
+  "U_Connectivity_Band_Thickness": { "internal": [1000000] },
+  "U_Connectivity_Band_Rates":     { "internal": [1.0] },
+  "ForceNearestNeighborConnectivity": false,
+
+  "U_NEI_Exp": { "internal": 1 },
+  "U_EI_Exp": { "internal": 1 },
+  "U_min_cutoff": { "internal": 0.0 },
+  "U_max_cutoff": { "internal": 1.0 },
+  "U_saturation_threshold": { "input_internal": 0.9 },
+
+  "MU_Range_Expansion_Factor": { "internal": 1 },
+  "MU_Range_Expansion_Exp": { "internal": 1 },
+
+  "Use_ML_Recog": true,
+
+  "numRecallCueFrames": 1
+}

@@ -1,0 +1,54 @@
+[package]
+name = "dcc_sparsey"
+description = "Rust reimplementation of the Sparsey sparse-distributed-memory neural network"
+readme = "README.md"
+repository = "https://github.com/jacobeverist/dcc-sparsey"
+keywords = ["machine-learning", "neuroscience", "sparsey", "sparsity"]
+categories = ["science", "algorithms"]
+
+version = "0.1.0"
+authors = ["Jacob Everist <jacob.everist@gmail.com>"]
+edition = "2021"
+license = "AGPL-3.0-or-later"
+
+# Copyright (c) 2026 Jacob Everist.
+#
+# Provenance and attribution live in PROVENANCE.md, not in this comment: the
+# permission this port rests on has to be findable by someone who never opens a
+# manifest. Short version — clean-room Rust reimplementation of the Sparsey
+# architecture (Gerard Rinkus, http://sparsey.com/), ported from the Java
+# reference SparseyCore (https://github.com/jacobeverist/SparseyCore @ a0d4d34f),
+# released with the author's permission.
+#
+# Extracted from the dcc-core workspace into a standalone, independent repository.
+
+[dependencies]
+rand = "0.9"
+rand_xoshiro = "0.7"
+thiserror = "2.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+bincode = "1.3"
+schemars = { version = "0.8", optional = true }
+
+[features]
+json-schema = ["dep:schemars"]
+
+[dev-dependencies]
+approx = "0.5"
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "sparsey_benchmarks"
+harness = false
+
+# Standalone workspace root (this crate is no longer a member of the dcc-core
+# workspace). Empty [workspace] so cargo treats this Cargo.toml as its own root.
+[workspace]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+debug = true
+incremental = true
