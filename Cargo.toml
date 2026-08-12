@@ -23,8 +23,22 @@ license = "AGPL-3.0-or-later"
 # Extracted from the dcc-core workspace into a standalone, independent repository.
 
 [dependencies]
-rand = "0.9"
-rand_xoshiro = "0.7"
+# `default-features = false` on both is load-bearing for wasm32, and it is free:
+# this crate is entirely seed-driven (`SparseyNet::build(config, seed)`) and calls
+# no OS-entropy API at all — no `rand::rng()`, no `from_os_rng`, no `OsRng`. It
+# uses exactly `Rng`, `SeedableRng` and `Xoshiro256PlusPlus`.
+#
+# With the defaults ON, `rand_core`'s `os_rng` feature pulls in `getrandom`, which
+# refuses to compile for wasm32-unknown-unknown unless a backend is selected —
+# there is no OS there, and nothing tells it whether the host is a browser, Node
+# or WASI. Selecting one is a BINARY's decision, not a library's, so this crate
+# must not do it; the right fix is not to need `getrandom` in the first place.
+#
+# Result: `cargo check --target wasm32-unknown-unknown` passes standalone, and
+# `getrandom` is absent from the dependency graph entirely rather than present
+# and unsatisfied. Same posture as dcc-core's `gym` crate.
+rand = { version = "0.9", default-features = false }
+rand_xoshiro = { version = "0.7", default-features = false }
 thiserror = "2.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
