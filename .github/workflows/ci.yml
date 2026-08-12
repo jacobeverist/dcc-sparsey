@@ -23,6 +23,10 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
+          # R12 of dcc-core's import contract: this crate must build for wasm32,
+          # because dcc-core ships a WebAssembly binding and anything it imports
+          # travels there. See doc/Conformance.md.
+          targets: wasm32-unknown-unknown
 
       - uses: actions/cache@v4
         with:
@@ -56,6 +60,18 @@ jobs:
         env:
           RUSTDOCFLAGS: -D warnings
         run: cargo doc --no-deps
+
+      # R12. This crate failed this check from extraction until 2026-08-12 and nobody
+      # noticed, because dcc-core's own wasm build supplies a `getrandom` backend and
+      # masked it. The rest of the contract is asserted by `tests/conformance.rs`, which
+      # `cargo test` above already runs; this one needs a real cross-compile, so it is a
+      # separate step.
+      #
+      # A failure here means something reintroduced a dependency needing OS entropy.
+      # The fix is NOT to select a getrandom backend — that is a binary's decision, and
+      # choosing one here would impose it on every consumer. See doc/Conformance.md.
+      - name: Builds for wasm32 (R12)
+        run: cargo check --target wasm32-unknown-unknown
 
       # `cargo tree -d` ALWAYS exits 0 — it REPORTS duplicates, it does not fail on
       # them. So `run: cargo tree -d`, which is what this step was until 2026-08-12,
