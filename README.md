@@ -1,6 +1,6 @@
 # dcc_sparsey — Sparsey in Rust
 
-A clean-room Rust reimplementation of the **Sparsey** sparse-distributed-memory architecture ([Gerard Rinkus](http://sparsey.com/)), ported from the Java reference [`SparseyCore`](https://github.com/jacobeverist/SparseyCore) at commit `a0d4d34`.
+A clean-room Rust reimplementation of the **Sparsey** sparse-distributed-memory architecture ([Gerard Rinkus](http://sparsey.com/)), ported from the unreleased Java reference [`SparseyCore`](https://github.com/jacobeverist/SparseyCore) at commit `a0d4d34`.
 
 Sparsey is a hierarchical **sparse-distributed-memory (SDM)** system modeled after neocortical macrocolumns. A network is a DAG of *regions*; each internal region holds a grid of *macrocolumns* (MACs); each MAC holds `Q` *competitive modules* (CMs); each CM holds `K` binary cells competing winner-take-all. A MAC's active **code** is one winning cell per CM (a one-hot-grouped sparse pattern of `Q·K` bits). Associations between codes are learned by temporal-Hebbian weight increases; recognition uses a data-driven *backoff* match and reports a scalar **familiarity `G` ∈ [0, 1]** (1.0 = perfectly familiar, ~0 = novel).
 
@@ -192,6 +192,6 @@ The port targets behavioral parity with the Java reference, not bit-exactness �
 
 Copyright (c) 2026 Jacob Everist.
 
-The Sparsey architecture is the work of **[Gerard Rinkus](http://sparsey.com/)**. This port exists by his permission: the private SparseyCore repository was sent to him by email on 17 July 2026, and he granted verbal permission on 20 July 2026 to port Sparsey to Rust and release it under an open source license. AGPL-3.0-or-later is OSI-approved, so the chosen license is within the granted scope.
+The Sparsey architecture is the work of **[Gerard Rinkus](http://sparsey.com/)**, and this port is released with his permission delivered on Aug 12, 2026 by email.
 
 The permission record, upstream credit and the pinned reference commit are in [`PROVENANCE.md`](PROVENANCE.md).
