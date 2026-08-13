@@ -71,6 +71,18 @@ name = "noise_robustness"
 [[example]]
 name = "capacity"
 
+[[example]]
+name = "sequence_recognition"
+
+[[example]]
+name = "classify_stream"
+
+[[example]]
+name = "partial_cue"
+
+[[example]]
+name = "backoff_modality"
+
 [[bench]]
 name = "sparsey_benchmarks"
 harness = false

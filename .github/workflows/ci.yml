@@ -66,6 +66,13 @@ jobs:
           set -e
           cargo run --release --example noise_robustness -- --classes 4 --test-reps 4 --quiet
           cargo run --release --example capacity -- --patterns 40 --every 20 --quiet
+          cargo run --release --example sequence_recognition -- --episodes 2 --length 3 --alphabet 4 --epochs 4 --probes 4 --quiet
+          cargo run --release --example classify_stream -- --classes 3 --per-class 2 --test-reps 3 --quiet
+          cargo run --release --example partial_cue -- --patterns 4 --reps 3 --quiet
+          cargo run --release --example backoff_modality -- --items 4 --epochs 3 --reps 3 --quiet
+          # sequence_recognition again through the path that reveals why its default
+          # backoff chain is the one it is; see doc/Demos.md.
+          cargo run --release --example sequence_recognition -- --episodes 2 --length 3 --alphabet 4 --epochs 4 --probes 4 --backoff canonical --quiet
           # Once through the sweep driver, so the run-matrix path that every offline
           # experiment goes through is executed by CI at all rather than only built.
           cargo run --release --example noise_robustness -- --classes 4 --test-reps 2 --sweep noise=0,0.5 --repeat 2 --quiet

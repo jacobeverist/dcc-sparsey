@@ -117,14 +117,18 @@ Runnable, self-contained examples in [`examples/`](examples/). Each prints an an
 | **Hierarchy** | `cargo run --example hierarchy` | A 3-region DAG (input → l1 → l2); read the sparse code each region forms per frame. |
 | **Save & load** | `cargo run --example save_and_load` | Serialize learned state to disk, reload into a fresh network, recognize identically. |
 
-Two further demos are **instrumented**: they take `--seed`, `--repeat`, `--sweep` and `--metrics`, report against a baseline, and end in a verdict. [`doc/Demos.md`](doc/Demos.md) records what each measures and why.
+Six further demos are **instrumented**: they take `--seed`, `--repeat`, `--sweep` and `--metrics`, report against a baseline, and end in a verdict. [`doc/Demos.md`](doc/Demos.md) records what each measures and why.
 
 | Demo | Command | Shows |
 | --- | --- | --- |
+| **Sequence recognition** | `cargo run --release --example sequence_recognition` | Recurrent lateral links carrying temporal context. A novel *ordering* of familiar frames is ranked below a learned one 93% of the time; with the recurrent link removed, 50% — exactly no signal. |
+| **Classify stream** | `cargo run --release --example classify_stream` | Supervised readout with no classifier: held-out exemplars classified at 100% against 17% chance, by nearest stored code alone. |
 | **Noise robustness** | `cargo run --release --example noise_robustness` | Recall and `G` under controlled corruption. Recall is flat to 60% corruption while `G` declines almost linearly — the network keeps answering correctly *while reporting how corrupted the input was*. |
+| **Partial cue** | `cargo run --release --example partial_cue` | Content-addressable completion. A fifth of a pattern's active cells recovers its code exactly, and `G` stays at 1.0 — familiarity is blind to *missing* evidence and sensitive to *wrong* evidence. |
 | **Capacity** | `cargo run --release --example capacity` | Plasticity as a finite resource. Bundles freeze permanently at saturation, and recall of the earliest patterns degrades **before** that happens — crosstalk bites before plasticity is exhausted. |
+| **Backoff modality** | `cargo run --release --example backoff_modality` | Degradation with a signal missing: one modality of two still identifies the item, costing five points. And a MAC cannot activate on lateral context alone, whatever the backoff chain says. |
 
-`noise_robustness` implements a demo contract shared with the sibling ports [`dcc-sph`](https://github.com/jacobeverist/dcc-sph) and [`dcc-htm`](https://github.com/jacobeverist/dcc-htm), so the same task can be compared across all three. The repositories share no *code* and cannot — this crate is AGPL-3.0 and `dcc_sph` is CC BY-NC-SA 4.0, which do not mix — only the contract.
+`sequence_recognition`, `classify_stream` and `noise_robustness` implement a demo contract shared with the sibling ports [`dcc-sph`](https://github.com/jacobeverist/dcc-sph) and [`dcc-htm`](https://github.com/jacobeverist/dcc-htm), so the same three tasks can be compared across all three. The repositories share no *code* and cannot — this crate is AGPL-3.0 and `dcc_sph` is CC BY-NC-SA 4.0, which do not mix — only the contract.
 
 ---
 
