@@ -57,7 +57,7 @@ dcc_sparsey = { git = "https://github.com/jacobeverist/dcc-sparsey" }
 | **Region** | A node in the network DAG. *Input* regions present raw sparse features; *internal* regions hold a 2-D grid of MACs. |
 | **MAC** (macrocolumn) | A group of `Q` competitive modules. Emits one **code** per frame. |
 | **CM** (competitive module) | A winner-take-all group of `K` cells; exactly one wins. |
-| **Code** | A MAC's output: the winning cell index (`0..K`) in each of its `Q` CMs — a sparse, one-hot-grouped pattern. |
+| **Code** | A MAC's output: the winning cell index (`0..K-1`) in each of its `Q` CMs — a sparse, one-hot-grouped pattern. |
 | **`G`** | Familiarity of the current input, in `[0, 1]`. High = recognized, low = novel. Sparsey's built-in novelty signal. |
 | **Modes** | `Learning` (updates weights), `Recognition` (read-only match), `Recall` (sequence regeneration — experimental, see Status). |
 
