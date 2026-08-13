@@ -71,8 +71,11 @@ fn run(args: &Args, seed: u64, rec: &mut Recorder) -> Summary {
     let active: usize = args.get("active", 24);
     let test_reps: usize = args.get("test-reps", 40);
     let noise: f32 = args.get("noise", 0.25);
+    // This demo has no training loop to report progress through — learning is one
+    // frame per pattern — so `--quiet` has nothing to suppress that `--silent` does
+    // not. Both are still accepted, because the sweep driver sets them and the
+    // contract says every demo takes them.
     let silent = args.flag("silent");
-    let quiet = silent || args.flag("quiet");
 
     macro_rules! say {
         ($($arg:tt)*) => { if !silent { println!($($arg)*); } };

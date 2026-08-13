@@ -54,6 +54,46 @@ jobs:
       - name: Clippy
         run: cargo clippy --all-targets -- -D warnings
 
+      # Building is not enough: a demo that panics on the first frame still compiles.
+      #
+      # This gate is the exit code and nothing else — it asks whether each demo sets
+      # up, encodes, runs frames, reports and exits, never whether it learned
+      # anything. The budgets are deliberately far too small to saturate or converge
+      # at: whether a configuration learns is an offline experiment run with --repeat
+      # and --sweep, not a build gate. See doc/Demos.md.
+      - name: Smoke-run the demos
+        run: |
+          set -e
+          cargo run --release --example noise_robustness -- --classes 4 --test-reps 4 --quiet
+          cargo run --release --example capacity -- --patterns 40 --every 20 --quiet
+          # Once through the sweep driver, so the run-matrix path that every offline
+          # experiment goes through is executed by CI at all rather than only built.
+          cargo run --release --example noise_robustness -- --classes 4 --test-reps 2 --sweep noise=0,0.5 --repeat 2 --quiet
+          # The four minimal API walkthroughs, which predate the demo suite.
+          cargo run --release --example hierarchy
+          cargo run --release --example learn_and_recognize
+          cargo run --release --example novelty_detection
+          cargo run --release --example save_and_load
+
+      # Checks the metrics *format* and same-seed determinism, never a metric value.
+      # Determinism is what --repeat and --sweep rest on, so it is tested directly
+      # rather than assumed.
+      - name: Metrics schema and determinism
+        run: |
+          set -e
+          cargo run --release --example noise_robustness -- --classes 4 --test-reps 4 --silent --metrics a.jsonl
+          cargo run --release --example noise_robustness -- --classes 4 --test-reps 4 --silent --metrics b.jsonl
+          diff a.jsonl b.jsonl
+          python3 - <<'PY'
+          import json
+          recs = [json.loads(l) for l in open("a.jsonl")]
+          kinds = [r["kind"] for r in recs]
+          assert kinds[0] == "run", kinds
+          assert "summary" in kinds and "verdict" in kinds, kinds
+          assert all({"demo", "seed", "run"} <= r.keys() for r in recs)
+          print("metrics schema ok:", kinds)
+          PY
+
       # Rustdoc warnings are the only mechanical guard on intra-doc links, and this
       # crate's docs cite types across a dozen modules.
       - name: Docs

@@ -52,6 +52,25 @@ json-schema = ["dep:schemars"]
 approx = "0.5"
 criterion = { version = "0.5", features = ["html_reports"] }
 
+# Instrumented demos. Declared explicitly rather than autodiscovered so the suite is
+# legible from the manifest. `examples/support/` is not a target — cargo ignores a
+# directory under examples/ with no main.rs — and is pulled into each demo with
+# `#[path = "support/mod.rs"] mod support;`. See doc/Demos.md.
+#
+# These are example targets rather than binary targets because R1 of the dcc-core
+# import contract forbids binary targets in this package. Note that the R1 test is a
+# plain substring search over this file, so it also matches the forbidden target
+# header written inside a comment; do not name it here.
+#
+# The four older examples (hierarchy, learn_and_recognize, novelty_detection,
+# save_and_load) stay autodiscovered. They are minimal API walkthroughs rather than
+# instrumented demos, and they remain the shortest way to see the API.
+[[example]]
+name = "noise_robustness"
+
+[[example]]
+name = "capacity"
+
 [[bench]]
 name = "sparsey_benchmarks"
 harness = false

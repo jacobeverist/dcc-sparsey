@@ -117,6 +117,15 @@ Runnable, self-contained examples in [`examples/`](examples/). Each prints an an
 | **Hierarchy** | `cargo run --example hierarchy` | A 3-region DAG (input → l1 → l2); read the sparse code each region forms per frame. |
 | **Save & load** | `cargo run --example save_and_load` | Serialize learned state to disk, reload into a fresh network, recognize identically. |
 
+Two further demos are **instrumented**: they take `--seed`, `--repeat`, `--sweep` and `--metrics`, report against a baseline, and end in a verdict. [`doc/Demos.md`](doc/Demos.md) records what each measures and why.
+
+| Demo | Command | Shows |
+| --- | --- | --- |
+| **Noise robustness** | `cargo run --release --example noise_robustness` | Recall and `G` under controlled corruption. Recall is flat to 60% corruption while `G` declines almost linearly — the network keeps answering correctly *while reporting how corrupted the input was*. |
+| **Capacity** | `cargo run --release --example capacity` | Plasticity as a finite resource. Bundles freeze permanently at saturation, and recall of the earliest patterns degrades **before** that happens — crosstalk bites before plasticity is exhausted. |
+
+`noise_robustness` implements a demo contract shared with the sibling ports [`dcc-sph`](https://github.com/jacobeverist/dcc-sph) and [`dcc-htm`](https://github.com/jacobeverist/dcc-htm), so the same task can be compared across all three. The repositories share no *code* and cannot — this crate is AGPL-3.0 and `dcc_sph` is CC BY-NC-SA 4.0, which do not mix — only the contract.
+
 ---
 
 ## Public API at a glance

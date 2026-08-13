@@ -10,6 +10,7 @@ Docs for the `dcc_sparsey` crate (a dcc-core-owned Rust port of the **Sparsey** 
 | [Divergences.md](Divergences.md) | Architectural/structural differences vs upstream — the fidelity audit (what we changed / deferred / missed). |
 | [MethodFidelity.md](MethodFidelity.md) | Method-by-method comparison vs upstream Java (faithful / divergent / missing / added). |
 | [AlgorithmTriangulation.md](AlgorithmTriangulation.md) | Core algorithm cross-checked across 4 sources (this port, SparseyCore, the independent Sparsey_Alt Python, the V-to-mu jar) — "is our architecture correct?" Verdict + the pinned canonical CSA formula. |
+| [Demos.md](Demos.md) | The instrumented demos, the cross-repo demo contract shared with `dcc-sph` and `dcc-htm`, and every load-bearing decision behind them. |
 | [UserGuide.md](UserGuide.md) | Concepts, public API, and how to run the crate. |
 | [Tuning.md](Tuning.md) | Parameters + tuning advice. |
 
